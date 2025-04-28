@@ -1,11 +1,18 @@
 import React from "react";
+import { useNavigate } from "react-router-dom"; // 👈 페이지 이동용
 
 function MainPage() {
+  const navigate = useNavigate(); // 👈 useNavigate 훅 사용
+
+  const goToLostList = () => {
+    navigate("/lost-list"); // 👉 클릭 시 분실물 목록 페이지로 이동
+  };
+
   return (
     <div style={styles.container}>
-      {/* 상단 왼쪽 로고 */}
+      {/* 상단 로고 */}
       <div style={styles.header}>
-        <span style={styles.logo}>returnu</span>
+        <span style={styles.logoText}>returnu</span>
       </div>
 
       {/* 메인 콘텐츠 */}
@@ -19,6 +26,11 @@ function MainPage() {
           />
           <button style={styles.searchButton}>검색</button>
         </div>
+
+        {/* 👇 여기 추가 */}
+        <button style={styles.lostListButton} onClick={goToLostList}>
+          분실물 목록 보기
+        </button>
       </div>
     </div>
   );
@@ -36,10 +48,10 @@ const styles = {
     top: "20px",
     left: "20px",
   },
-  logo: {
+  logoText: {
     fontSize: "24px",
     fontWeight: "bold",
-    color: "#ff6f00", // 원하는 색으로 변경 가능 (예: 주황색)
+    color: "#ff6f00",
   },
   wrapper: {
     display: "flex",
@@ -54,6 +66,7 @@ const styles = {
   searchBox: {
     display: "flex",
     alignItems: "center",
+    marginBottom: "30px",
   },
   searchInput: {
     width: "400px",
@@ -72,6 +85,16 @@ const styles = {
     color: "white",
     border: "none",
     borderRadius: "0 10px 10px 0",
+    cursor: "pointer",
+  },
+  lostListButton: {
+    marginTop: "20px",
+    padding: "12px 24px",
+    fontSize: "1.2rem",
+    borderRadius: "10px",
+    border: "none",
+    backgroundColor: "#007bff",
+    color: "white",
     cursor: "pointer",
   },
 };
