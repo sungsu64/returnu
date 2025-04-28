@@ -1,20 +1,27 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
-import Home from './pages/Home';
-import LostRegister from './pages/LostRegister';
-import FoundList from './pages/FoundList';
-
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/lost/register" element={<LostRegister />} />
-        <Route path="/found/list" element={<FoundList />} />
-      </Routes>
-    </Router>
+    <div style={{ 
+      backgroundColor: "#121212", 
+      minHeight: "100vh", 
+      display: "flex", 
+      justifyContent: "center", 
+      alignItems: "center" 
+    }}>
+      <input 
+        type="text" 
+        placeholder="검색어를 입력하세요" 
+        style={{
+          width: "500px",
+          height: "50px",
+          borderRadius: "25px",
+          border: "none",
+          padding: "0 20px",
+          fontSize: "18px"
+        }}
+      />
+    </div>
   );
 }
 
+// 👇 이거 꼭 필요!!
 export default App;
