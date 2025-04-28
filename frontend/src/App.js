@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import MainPage from "./pages/MainPage";
 import LostListPage from "./pages/LostListPage";
-import LostDetailPage from "./pages/LostDetailPage"; // 추가!
+import LostDetailPage from "./pages/LostDetailPage";
+import LostCreatePage from "./pages/LostCreatePage";
 
 function App() {
   return (
@@ -9,7 +10,8 @@ function App() {
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/lost-list" element={<LostListPage />} />
-        <Route path="/lost-detail/:id" element={<LostDetailPage />} /> {/* 추가 */}
+        <Route path="/lost-detail/:id" element={<LostDetailPage />} /> {/* 이렇게 id도 경로에 표시 */}
+        <Route path="/lost-create" element={<LostCreatePage />} />
       </Routes>
     </BrowserRouter>
   );

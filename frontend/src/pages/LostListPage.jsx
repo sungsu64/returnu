@@ -1,61 +1,90 @@
-import React from "react";
-import { useNavigate } from "react-router-dom"; // 👈 페이지 이동
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function LostListPage() {
   const navigate = useNavigate();
+  const [lostItems, setLostItems] = useState([]);
 
-  const dummyLostItems = [
-    { id: 1, title: "검정색 지갑", location: "학생회관 1층", date: "2024-05-01" },
-    { id: 2, title: "은색 아이패드", location: "도서관 3층", date: "2024-05-02" },
-    { id: 3, title: "회색 후드티", location: "식당 앞", date: "2024-05-03" },
-  ];
+  useEffect(() => {
+    const fetchLostItems = async () => {
+      try {
+        const response = await axios.get("http://localhost:8090/api/lost-items");
+        setLostItems(response.data);
+      } catch (error) {
+        console.error("분실물 목록 가져오기 실패:", error);
+      }
+    };
 
-  const goToDetailPage = (id) => {
-    navigate(`/lost-detail/${id}`); // 물건 클릭 시 상세 페이지로 이동
+    fetchLostItems();
+  }, []);
+
+  const goToDetail = (id) => {
+    navigate(`/lost-detail/${id}`);
   };
 
   return (
-    <div style={styles.container}>
-      <h1 style={styles.title}>분실물 목록</h1>
-      <div style={styles.list}>
-        {dummyLostItems.map((item) => (
-          <div key={item.id} style={styles.card} onClick={() => goToDetailPage(item.id)}>
+    <div style={{ padding: "50px" }}>
+      {/* 제목 + 등록 버튼 */}
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
+        <h1>분실물 목록</h1>
+        <button
+          onClick={() => navigate("/lost-create")}
+          style={{
+            padding: "10px 15px",
+            backgroundColor: "#007bff",
+            color: "white",
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer"
+          }}
+        >
+          분실물 등록
+        </button>
+      </div>
+
+      {/* 분실물 목록 카드 */}
+      <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
+        {lostItems.map((item) => (
+          <div
+            key={item.id}
+            style={{
+              border: "1px solid #ccc",
+              padding: "20px",
+              borderRadius: "10px",
+              cursor: "pointer",
+              backgroundColor: item.claimed_by ? "#e0e0e0" : "white",
+              position: "relative",
+              opacity: item.claimed_by ? 0.6 : 1,
+            }}
+            onClick={() => goToDetail(item.id)}
+          >
             <h2>{item.title}</h2>
             <p>습득 장소: {item.location}</p>
             <p>등록일: {item.date}</p>
+
+            {/* 수령 완료 표시 */}
+            {item.claimed_by && (
+              <div
+                style={{
+                  position: "absolute",
+                  top: "10px",
+                  right: "10px",
+                  backgroundColor: "#28a745",
+                  color: "white",
+                  padding: "5px 10px",
+                  borderRadius: "5px",
+                  fontSize: "0.8rem",
+                }}
+              >
+                수령 완료
+              </div>
+            )}
           </div>
         ))}
       </div>
     </div>
   );
 }
-
-const styles = {
-  container: {
-    padding: "50px",
-    backgroundColor: "#f5f5f5",
-    minHeight: "100vh",
-  },
-  title: {
-    fontSize: "2rem",
-    marginBottom: "30px",
-    textAlign: "center",
-  },
-  list: {
-    display: "flex",
-    flexWrap: "wrap",
-    gap: "20px",
-    justifyContent: "center",
-  },
-  card: {
-    width: "250px",
-    padding: "20px",
-    border: "1px solid #ccc",
-    borderRadius: "10px",
-    backgroundColor: "white",
-    boxShadow: "2px 2px 8px rgba(0,0,0,0.1)",
-    cursor: "pointer", // 클릭할 수 있는 느낌
-  },
-};
 
 export default LostListPage;
