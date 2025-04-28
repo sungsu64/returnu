@@ -96,6 +96,6 @@ const styles = {
     borderRadius: "8px",
     cursor: "pointer",
   },
-};
+};  //메인페이지
 
 export default MainPage;
