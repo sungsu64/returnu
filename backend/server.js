@@ -96,5 +96,5 @@ app.get('/api/lost-item/:id', (req, res) => {
 // ✅ 서버 실행
 app.listen(port, () => {
   console.log(`🚀 서버 실행됨: http://localhost:${port}`);
-}); //server.js
+}); //server.js 일단 여기까지
 
